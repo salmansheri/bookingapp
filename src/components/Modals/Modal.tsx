@@ -52,7 +52,7 @@ const Modal: React.FC<ModalProps> = ({
 
                 <div className="my-5 ">
 
-                <Button secondary label={actionLabel} />
+                <Button secondary label={actionLabel} onClick={onSubmit}  />
                 </div>
 
                 <div className="text-center ">

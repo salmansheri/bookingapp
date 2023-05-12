@@ -1,28 +1,65 @@
 'use client';
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import Modal from "./Modal";
 import useLoginModal from "@/hooks/useLoginModal";
+import { signIn } from "next-auth/react";
+import  { useForm, FieldValues, SubmitHandler } from 'react-hook-form'; 
+import { toast } from 'react-hot-toast'; 
 
  
 
 const LoginModal = () => {
     const loginModal = useLoginModal(); 
+    const [isLoading, setIsLoading] = useState(false); 
 
-    const onSubmit = useCallback(() => {
+    const {
+        register,
+        handleSubmit,
+        formState: {
+            errors
+        }
+     } = useForm<FieldValues>({
+        defaultValues: {
+            email: "",
+            password: "",
 
-    }, [])
+        }
+    })
+
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        setIsLoading(true)
+        signIn('credentials', {
+            ...data,
+            
+        
+        }).then((callback) => {
+            if(callback?.ok) {
+                toast.success("Logged In")
+                
+            }
+        }).catch((error) => {
+            console.log(error); 
+            console.log(errors)
+            toast.error("Something went wrong"); 
+        }).finally(() => {
+            setIsLoading(false)
+        })
+
+
+
+    }
 
     const bodyContent = (
         <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-3">
 
             <label>Email</label>
-            <input className="w-full p-2 border" />
+            <input {...register('email')} className="w-full p-2 border" />
             </div>
             <div className="flex flex-col gap-3">
 
             <label>Password</label>
-            <input className="w-full p-2 border" />
+            <input {...register('password')} className="w-full p-2 border" />
             </div>
             
         </div>
@@ -45,10 +82,11 @@ const LoginModal = () => {
             isOpen={loginModal.isOpen}
             actionLabel="Login"
             onClose={loginModal.onClose}
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             body={bodyContent}
             title="Login"
             footer={footerContent}
+            disabled={isLoading}
 
 
         

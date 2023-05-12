@@ -3,9 +3,13 @@ import FeaturedProperties from "@/components/featured/FeaturedProperties";
 import Header from "@/components/header/Header";
 import Mailbox from "@/components/home/Mailbox";
 import Property from "@/components/home/Property";
+import getCurrentUser from "@/actions/getCurrentUser";
 
 
-export default function Home() {
+
+export default async function Home() {
+  const currentUser = await getCurrentUser(); 
+  console.log(currentUser); 
   return (
     <main>
      

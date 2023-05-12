@@ -4,9 +4,11 @@ import React from "react";
 import Button from "./Button";
 import useLoginModal from "@/hooks/useLoginModal";
 import useRegisterModal from "@/hooks/useRegisterModal";
+import { useSession, signOut } from 'next-auth/react'; 
 
 const Navbar = () => {
-  const currentUser = false;
+  const { data: session } = useSession(); 
+  const currentUser = session?.user?.email;
   const loginModal = useLoginModal(); 
   const registerModal = useRegisterModal(); 
   return (
@@ -15,7 +17,7 @@ const Navbar = () => {
         <span className="logo text-2xl">Booking App</span>
         <div className="navItems flex gap-10">
           {currentUser ? (
-            <Button label="Logout" />
+            <Button label="Logout" onClick={() => signOut()} />
           ) : (
             <>
               <Button label="Register" onClick={registerModal.onOpen}  />
