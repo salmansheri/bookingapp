@@ -3,6 +3,12 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import Header from '@/components/header/Header'
 import Footer from '@/components/Footer'
+import Modal from '@/components/Modals/Modal'
+import LoginModal from '@/components/Modals/LoginModal'
+import RegisterModal from '@/components/Modals/RegisterModal'
+
+
+
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -17,9 +23,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+   
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* <Modal isOpen={true} title="Login" actionLabel='Login' /> */}
+        <LoginModal />
+        <RegisterModal />
+     
         <Navbar />      
         {children}
         <Footer />

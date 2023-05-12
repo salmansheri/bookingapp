@@ -2,7 +2,8 @@
 const nextConfig = {
     images: {
         domains: [
-            "cf.bstatic.com"
+            "cf.bstatic.com",
+            "images.unsplash.com",
         ]
     }
 }

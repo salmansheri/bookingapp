@@ -1,4 +1,4 @@
-'use search'; 
+'use client'; 
 
 import React, { useCallback, useState } from "react";
 import { RiHotelBedFill, RiCalendar2Fill } from "react-icons/ri";
@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import OptionItem from "./OptionItem";
 import { useRouter } from "next/navigation";
 
+
 export type OptionsType ={
     adult: number,
     children: number,
@@ -17,6 +18,7 @@ export type OptionsType ={
 }
 const HeaderSearch = () => {
     const router = useRouter(); 
+    const [destination, setDestination] = useState(""); 
     const [hasOpen, setHasOpen] = useState<boolean>(false); 
     const [hasOpenOptions, setHasOpenOptions] = useState<boolean>(false);
 
@@ -36,16 +38,18 @@ const HeaderSearch = () => {
     ])
 
     const handleSearch = useCallback(() => {
+      router.push(`/search?q=${destination}&adults=${options.adult}&childrens=${options.children}&rooms=${options.room}`)
       
 
-    }, [])
+    }, [router, destination, options])
+    console.log(destination)
 
   return (
     <div className="bg-white border flex gap-2 items-center px-1 rounded-md relative">
       <div className="w-[30%] flex items-center">
         <RiHotelBedFill color="black" size={30} />
 
-        <Input placeholder="Where are you going?" type="text" />
+        <Input placeholder="Where are you going?" type="text" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDestination(e.target.value)} />
       </div>
       <div className="w-[30%] flex items-center gap-3 cursor-pointer" onClick={() => setHasOpen(!hasOpen)}>
         <RiCalendar2Fill color="black" size={30}  />
@@ -65,7 +69,7 @@ const HeaderSearch = () => {
         )}
       </div>
       <div className="self-end">
-        <Button label="search" secondary />
+        <Button label="search" secondary onClick={handleSearch}/>
       </div>
       {hasOpen && (
 

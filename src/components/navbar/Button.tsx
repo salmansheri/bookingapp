@@ -5,9 +5,10 @@ interface ButtonProps {
   onClick?: () => void;
   label: string;
   isSearch?: boolean;
+  teritiary?: boolean; 
 }
 
-const Button: React.FC<ButtonProps> = ({ secondary, onClick, label, isSearch }) => {
+const Button: React.FC<ButtonProps> = ({ secondary, onClick, label, isSearch, teritiary }) => {
   return (
     <button
       className={`
@@ -16,6 +17,7 @@ const Button: React.FC<ButtonProps> = ({ secondary, onClick, label, isSearch }) 
             border
             rounded-md
             ${secondary && 'bg-blue-500 border-0 hover:bg-opacity-80'}
+            ${teritiary && "w-full"}
             ${isSearch && "self-end"}
             
 

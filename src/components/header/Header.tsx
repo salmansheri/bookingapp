@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import HeaderList from "./HeaderList";
 import Button from "../navbar/Button";
 import HeaderSearch from "./HeaderSearch";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 
 interface HeaderProps {
@@ -14,6 +15,16 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({
   isHome,
 }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams(); 
+  const query = searchParams.get('q'); 
+  const dateRange = searchParams.get('range'); 
+  const options = searchParams.get('options'); 
+
+  console.log(query, )
+
+ 
  
   return (
     <div className=" h-auto py-10">

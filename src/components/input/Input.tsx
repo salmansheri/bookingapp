@@ -2,7 +2,7 @@ import React from 'react';
 
 interface InputProps {
     placeholder:string; 
-    onChange?: () => void; 
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; 
     disabled?:boolean; 
     secondary?:boolean; 
     value?: string; 
@@ -18,7 +18,7 @@ const Input: React.FC<InputProps> = ({
     type,
 }) => {
   return (
-    <input className="p-2 rounded-md w-full outline-none text-black" type={type} placeholder={placeholder} />
+    <input className="p-2 rounded-md w-full outline-none text-black" type={type} placeholder={placeholder} onChange={onChange} />
   )
 }
 

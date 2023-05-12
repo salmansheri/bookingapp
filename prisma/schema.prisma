@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Hotel {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  type          String
+  title         String?
+  userId        String   @db.ObjectId
+  city          String?
+  address       String?
+  distance      String?
+  images        String[]
+  desc          String?
+  rating        Int      @default(0)
+  roomId        String[]
+  cheapestPrice Int?
+  featured      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  customer User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  rooms Room[]
+
+  bookings Booking[]
+}
+
+model User {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  username       String   @unique
+  email          String   @unique
+  isAdmin        Boolean  @default(false)
+  country        String?
+  image          String?
+  city           String?
+  hashedPassword String
+  phone          String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  hotels Hotel[]
+  rooms  Room[]
+
+  bookings Booking[]
+}
+
+model Room {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  price      Int?
+  userId     String  @db.ObjectId
+  hotelId    String  @db.ObjectId
+  maxPeople  Int?
+  desc       String?
+  roomNumber String[]
+
+  customer User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  hotel Hotel @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+}
+
+model Booking {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  hotelId String @db.ObjectId
+  userId  String @db.ObjectId
+  roomId  String @db.ObjectId
+
+  customer User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  hotel Hotel @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+}

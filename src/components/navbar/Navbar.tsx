@@ -1,8 +1,14 @@
+'use client'; 
+
 import React from "react";
 import Button from "./Button";
+import useLoginModal from "@/hooks/useLoginModal";
+import useRegisterModal from "@/hooks/useRegisterModal";
 
 const Navbar = () => {
   const currentUser = false;
+  const loginModal = useLoginModal(); 
+  const registerModal = useRegisterModal(); 
   return (
     <div className="h-24 bg-slate-900  flex items-center border-b">
       <div className="container flex items-center justify-between">
@@ -12,8 +18,8 @@ const Navbar = () => {
             <Button label="Logout" />
           ) : (
             <>
-              <Button label="Register"  />
-              <Button label="Login"  />
+              <Button label="Register" onClick={registerModal.onOpen}  />
+              <Button label="Login" onClick={loginModal.onOpen}  />
             </>
           )}
         </div>
